@@ -21,7 +21,19 @@ var log = function (a, red) {
 var exec = function (fnstr) {
     log(fnstr);
     eval('ctx.' + fnstr)
-    if(fnstr.indexOf('lineTo') !== -1) {
+    if (fnstr.indexOf('lineTo') !== -1) {
         ctx.stroke();
     }
 }
+
+function getMousePos(canvas, evt) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+    };
+}
+c.addEventListener('click', function (evt) {
+    var mousePos = getMousePos(c, evt);
+    exec("lineTo("+mousePos.x+","+mousePos.y+")");
+}, false);
